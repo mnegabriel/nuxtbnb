@@ -1,0 +1,14 @@
+{
+  "name": "nuxtbnb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "nuxt": "^2.14.7"
+  },
+  "scripts":{
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start"    
+  }
+}
