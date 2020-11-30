@@ -9,6 +9,16 @@
 import homes from '@/data/homes'
 
 export default {
+    head() {
+        return {
+            title: "Homepage",
+            meta: [{
+                hid:'description',
+                name:'description',
+                content: "Check our catalog for your next trip - NuxtBnB"
+            }]
+        }
+    },
     data(){
         return {
             homes: homes.slice(0,3)
