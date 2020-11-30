@@ -7,12 +7,8 @@
 
 <script>
 import homes from '@/data/homes'
-import HomeCardDeck from '@/components/HomeCardDeck'
 
 export default {
-    components: {
-        HomeCardDeck
-    },
     data(){
         return {
             homes: homes.slice(0,3)

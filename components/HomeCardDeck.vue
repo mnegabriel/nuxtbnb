@@ -7,13 +7,9 @@
 </template>
 
 <script>
-import HomeCard from '@/components/HomeCard'
 
 export default {
     name: 'HomeCardDeck',
-    components: {
-        HomeCard
-    },
     props: ['homes']
 }
 </script>
