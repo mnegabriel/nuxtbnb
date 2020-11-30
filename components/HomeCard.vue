@@ -1,13 +1,20 @@
 <template>
-  <article class="card">
-      <img :src="home.images[0]" alt="">
-      <h3>{{home.title}}</h3>
-      <span>{{home.location.adress}}</span>
-      <span>{{home.location.city}}</span>
-      <span>{{home.location.state}}</span>
-      <p>{{home.guests}} guests</p>
-      <p>{{home.price}} / night</p>
-  </article>
+    <article class="card">
+
+        <header>
+            <img class="card__thumb" :src="home.images[0]" alt="">
+        </header>
+
+        <section class="card__info">
+            <h3 class="">{{home.title}}</h3>
+            <span>{{home.location.adress}}</span>
+            <span>{{home.location.city}}</span>
+            <span>{{home.location.state}}</span>
+            <p>{{home.guests}} guests</p>
+            <p>{{home.pricePerNight}} / night</p>
+        </section>
+
+    </article>
 </template>
 
 <script>
@@ -21,8 +28,19 @@ export default {
 }
 </script>
 
-<style>
-img {
-    max-width: 200px;
+<style scoped>
+.card {
+    max-width: 250px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 1px 1px 18px 0 #00000022;
+}
+
+.card__thumb {
+    width: 100%;
+}
+
+.card__info {
+    padding: 5px 12px 8px;
 }
 </style>

@@ -1,21 +1,17 @@
 <template>
     <div>
         <h1>NuxtBnB</h1>
-        <ul>
-            <li v-for="(home, k) in homes" :key="k" >
-                <HomeCard :home='home'/>
-            </li>
-        </ul>
+        <HomeCardDeck :homes='homes' />
     </div>
 </template>
 
 <script>
 import homes from '@/data/homes'
-import HomeCard from '@/components/HomeCard'
+import HomeCardDeck from '@/components/HomeCardDeck'
 
 export default {
     components: {
-        HomeCard
+        HomeCardDeck
     },
     data(){
         return {
@@ -30,9 +26,5 @@ export default {
     margin:0;
     padding:0;
     box-sizing: border-box;
-}
-
-ul {
-    list-style: none;
 }
 </style>
