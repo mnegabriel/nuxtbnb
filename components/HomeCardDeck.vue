@@ -3,7 +3,7 @@
         <li v-for="(home, k) in homes" :key="k" >
             <nuxt-link :to="`/home/${home.objectID}`">
                 <HomeCard :home='home'>
-                    <template #details>{{home.features.join(", ")}}</template>
+                    <!-- <template #details>{{home.features.join(", ")}}</template> -->
                 </HomeCard>
             </nuxt-link>
         </li>
