@@ -1,7 +1,9 @@
 <template>
     <ul class="deck">
         <li v-for="(home, k) in homes" :key="k" >
-            <HomeCard :home='home'/>
+            <HomeCard :home='home'>
+                <template #details>{{home.features.join(", ")}}</template>
+            </HomeCard>
         </li>
     </ul>
 </template>
@@ -15,7 +17,6 @@ export default {
 </script>
 
 <style>
-
 .deck {
     list-style: none;
     padding: 30px 0;
@@ -24,5 +25,4 @@ export default {
     row-gap: 30px;
     justify-items: center;
 }
-
 </style>
