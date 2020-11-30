@@ -1,9 +1,11 @@
 <template>
     <ul class="deck">
         <li v-for="(home, k) in homes" :key="k" >
-            <HomeCard :home='home'>
-                <template #details>{{home.features.join(", ")}}</template>
-            </HomeCard>
+            <nuxt-link :to="`/home/${home.objectID}`">
+                <HomeCard :home='home'>
+                    <template #details>{{home.features.join(", ")}}</template>
+                </HomeCard>
+            </nuxt-link>
         </li>
     </ul>
 </template>
@@ -24,4 +26,6 @@ export default {
     row-gap: 30px;
     justify-items: center;
 }
+
+
 </style>
