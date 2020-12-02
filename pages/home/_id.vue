@@ -28,10 +28,10 @@
                 <ul>
                     <li v-for="(feature, k) in home.features" :key="k">{{feature}}</li>
                 </ul>
-            </div>
-
-
+            </div>            
         </section>
+
+        <div id="map" ref="map"></div>
 
         <nuxt-link to="/">Back to home</nuxt-link>
     </article>
@@ -41,10 +41,42 @@
 import homes from '@/data/homes'
 
 export default {
+    head(){
+        return {
+            title: this.home.title,
+            script: [
+                { 
+                    src:`https://maps.googleapis.com/maps/api/js?key=${process.env.PLACES_API_KEY}&libraries=places&callback=initMap`,
+                    hid:"map",
+                    defer:true,
+                    skip: process.client && window.mapLoaded
+                },
+                {
+                    innerHTML: 'window.initMap = function(){ window.mapLoaded = true }',
+                    hid: 'map-init'
+                }
+            ],
+            // __danderouslyDisableSanitazersByTagID: {
+            //     'map-init': ['innnerHTML']
+            // }
+        }
+    },
     data() {
         return {
             home: null,
         }
+    },
+    mounted() {
+        const mapOptions = {
+            zoom: 18,
+            center: new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng),
+            disableDefaultUI: true,
+            zoomControl: true,
+        } 
+        const map = new window.google.maps.Map(this.$refs.map, mapOptions)
+        const position = new window.google.maps.LatLng(this.home._geoloc.lat, this.home._geoloc.lng)
+        const marker = new window.google.maps.Marker({position})
+        marker.setMap(map)
     },
     created() {
         this.home = homes.find( home => home.objectID === this.$route.params.id )
@@ -88,6 +120,12 @@ grid-column: 1 / -1;
     background-color: rgb(255, 255, 212);
     padding: 10px;
     border-left: 4px solid rgb(245, 219, 73);
+}
+
+#map{
+    height:800px;
+    width: 100%;
+    grid-column: span 2;
 }
 
 </style>
