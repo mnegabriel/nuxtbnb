@@ -8,5 +8,8 @@ export default {
         meta: [{
             charset: 'utf-8',
         }]
+    },
+    env: {
+        placesApiKey: process.env.PLACES_API_KEY
     }
 }
