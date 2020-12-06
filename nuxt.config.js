@@ -9,6 +9,9 @@ export default {
             charset: 'utf-8',
         }]
     },
+    plugins: [
+        '~/plugins/maps.client'
+    ],
     env: {
         placesApiKey: process.env.PLACES_API_KEY
     }
