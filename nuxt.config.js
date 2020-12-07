@@ -10,9 +10,12 @@ export default {
         }]
     },
     plugins: [
-        '~/plugins/maps.client'
+        '~/plugins/maps.client',
+        '~/plugins/dataApi',
     ],
     env: {
-        placesApiKey: process.env.PLACES_API_KEY
+        placesApiKey: process.env.PLACES_API_KEY,
+        dbApiId: process.env.DB_API_ID,
+        dbApiKey: process.env.DB_API_KEY,
     }
 }
