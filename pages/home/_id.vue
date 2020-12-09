@@ -49,7 +49,7 @@ export default {
         if(!response.ok){ 
             return error({ 
                 statusCode: response.status,
-                message: response.StatusText    
+                message: response.statusText    
             })
         
         }

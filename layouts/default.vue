@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='whole'>
       <TheHeader/>
       <Nuxt/>
   </div>
@@ -15,5 +15,10 @@ export default {
 :root{
     --col-main-dark: rgb(16, 94, 16);
     --col-main-light: rgb(184, 255, 200);
+}
+#whole {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 </style>
