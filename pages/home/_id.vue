@@ -42,6 +42,14 @@
             </article>
         </section>
 
+        <section class="home__host">
+            <img :src="user.image" :alt="user.name" :title="user.name">
+            <h5>{{user.name}}</h5>
+            <p>joined {{ user.joined | formatDate }}</p>
+            <span>Grade: {{user.reviewCount}}</span>
+            <p>{{user.description}}</p>
+        </section>
+
         <div id="map" ref="map"></div>
 
         <nuxt-link to="/">Back to home</nuxt-link>
@@ -78,9 +86,20 @@ export default {
             })        
         }
 
+        const userResponse = await $dataApi.getUserByHomeId(params.id)
+        if(!userResponse.ok){ 
+            return error({ 
+                statusCode: userResponse.status,
+                message: userResponse.statusText    
+            })        
+        }
+
+        console.log(userResponse.json.hits)
+
         return {
             home: homeResponse.json,
             reviews: reviewResponse.json.hits,
+            user: userResponse.json.hits[0],
         }
     },
     mounted() {
@@ -91,44 +110,26 @@ export default {
 
 <style scoped>
 .home{
-    display: grid;
     min-height: 100vh;
     width: 100%;
-    grid-template-columns: 1fr 260px;
-    column-gap: 80px;
-    row-gap: 30px;
     padding: 0 40px;
-    align-items: start;
-    margin: 0 auto;
-    max-width: 1200px;
-    border: 1px solid red
-}
-.home * {
-    grid-column: 1 / -2;
+    margin: 0 auto;    
 }
 
-.home__images{
-grid-column: 1 / -1;
+.home > * {
+    margin-bottom: 20px;
 }
+
 .home__images img {
     width: 200px;
     max-height: 133px;
     object-fit: cover;
 }
 
-.side-note, 
-.home__ratings {
-    grid-column: -2 / -1;
-}
-
 .side-note {
     background-color: rgb(255, 255, 212);
-    padding: 10px;
     border-left: 4px solid rgb(245, 219, 73);
-}
-
-.home__reviews {
-    grid-column: 1 / -1;
+    padding: 10px;
 }
 
 .review {
@@ -148,6 +149,38 @@ grid-column: 1 / -1;
     height:800px;
     width: 100%;
     grid-column: span 2;
+}
+
+@media (min-width: 800px) {
+    .home {
+        display: grid;
+        grid-template-columns: 1fr 260px;
+        column-gap: 80px;
+        row-gap: 30px;
+        align-items: start;
+        max-width: 1200px;
+    }
+    
+    .home * {
+        grid-column: 1 / -2;
+    }
+
+    .home__advert {
+        grid-row: span 2;
+    }
+
+    .home__images{
+        grid-column: 1 / -1;
+    }
+
+    .side-note, 
+    .home__ratings {
+        grid-column: -2 / -1;
+    }
+
+    .home__reviews {
+        grid-column: 1 / -1;
+    }
 }
 
 </style>
