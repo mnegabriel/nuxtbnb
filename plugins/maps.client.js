@@ -1,6 +1,6 @@
 export default function (context, inject) {
-    let mapLoaded = false
-    let mapWaiting = null
+    let isLoaded = false
+    let waiting = []
 
     addScript()
     inject('maps', {
@@ -9,27 +9,30 @@ export default function (context, inject) {
 
     function addScript() {
         const script = document.createElement('script')
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.placesApiKey}&libraries=places&callback=initMap`
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.placesApiKey}&libraries=places&callback=initGooglemaps`
         script.async = true
-        window.initMap = initMap
+        window.initGooglemaps = initGooglemaps
         document.head.appendChild(script)
     }
 
-    function initMap() {
-        mapLoaded = true
-        if(mapWaiting) {
-            const { canvas, lat, lng } = mapWaiting
-            renderMap(canvas, lat, lng)
-            mapWaiting = null
-        }
+    function initGooglemaps() {
+        isLoaded = true
+        waiting.forEach( item => {
+            if( typeof item.fn === 'function' ) {
+                item.fn(...item.arguments)
+            }
+        })
+        waiting = []
     }
 
     function showMap(canvas, lat, lng) {
-        if(mapLoaded) renderMap(canvas, lat, lng)
-        else mapWaiting = { canvas, lat, lng }
-    }
-
-    function renderMap(canvas, lat, lng) {
+        if(!isLoaded) {
+            waiting.push({
+                fn: showMap,
+                arguments,
+            })
+            return
+        }
         const mapOptions = {
             zoom: 18,
             center: new window.google.maps.LatLng(lat, lng),
@@ -41,4 +44,5 @@ export default function (context, inject) {
         const marker = new window.google.maps.Marker({position})
         marker.setMap(map)
     }
+
 }
