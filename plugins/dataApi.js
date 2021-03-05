@@ -12,6 +12,7 @@ export default function (context, inject) {
         getHome,
         getReviewsByHomeId,
         getUserByHomeId,
+        getHomesByLocation
     });
 
     async function getHome(homeId) {
@@ -42,7 +43,26 @@ export default function (context, inject) {
         }
     }
 
-    async function getUserByHomeId(homeId) {
+    async function getUserByHomeId(lat, lng, radiusInMeters = 1500) {
+        try {
+            return unwrap(
+                await fetch(baseUrl + "/homes/query", {
+                    headers,
+                    method: "POST",
+                    body: JSON.stringify({
+                        aroundLatLng: `${lat},${lng}`,
+                        aroundRadius: radiusInMeters,
+                        hitsPerPage: 10,
+                        attributesToHighlight: []
+                    })
+                })
+            );
+        } catch (err) {
+            return getErrorResponse(err);
+        }
+    }
+
+    async function getHomesByLocation(homeId) {
         try {
             return unwrap(
                 await fetch(baseUrl + "/users/query", {
@@ -50,8 +70,8 @@ export default function (context, inject) {
                     method: "POST",
                     body: JSON.stringify({
                         filters: `homeId:${homeId}`,
-                        attributesToHighlight: [],
-                    }),
+                        attributesToHighlight: []
+                    })
                 })
             );
         } catch (err) {

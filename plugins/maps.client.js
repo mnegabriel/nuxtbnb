@@ -3,9 +3,10 @@ export default function (context, inject) {
     let waiting = []
 
     addScript()
-    inject('maps', {
-        showMap
-    })
+    inject("maps", {
+        showMap,
+        makeAutoComplete
+    });
 
     function addScript() {
         const script = document.createElement('script')
@@ -25,6 +26,25 @@ export default function (context, inject) {
         waiting = []
     }
 
+    function makeAutoComplete(input) {
+        if (!isLoaded) {
+            waiting.push({
+                fn: makeAutoComplete,
+                arguments
+            });
+            return;
+        }
+
+        const autoComplete = new window.google.maps.places.Autocomplete(input, {
+            types: "(cities)"
+        });
+
+        autoComplete.addListener("place_changed", () => {
+            const place = autoComplete.getPlace();
+            input.dispatchEvent(new CustomEvent("changed", { detail: place }));
+        });
+    }
+    
     function showMap(canvas, lat, lng) {
         if(!isLoaded) {
             waiting.push({
