@@ -12,6 +12,7 @@
 
 <script>
 export default {
+
     async beforeRouteUpdate(to, from, next) {
         const { label, lat, lng } = to.query
 
@@ -26,6 +27,7 @@ export default {
         console.log(data)
         next()
     },
+
     async asyncData({ query, $dataApi }){
         const { label, lat, lng } = query
 
@@ -33,6 +35,7 @@ export default {
         
         return { homes: data.json.hits, label, lat, lng }
     },
+
     data() {
         return {
             homes: [],
@@ -41,18 +44,30 @@ export default {
             lng: '',            
         }
     },
+
     mounted() {
         this.updateMap()
     },
+
     methods: {
+
         updateMap() {
-            this.$maps.showMap(this.$refs.map, this.lat, this.lng)
-        }
+            this.$maps.showMap(this.$refs.map, this.lat, this.lng, this.getHomeMarkers())
+        },
+
+        getHomeMarkers() {
+            return this.homes.map( home => ({ 
+                ...home._geoloc,
+                pricePerNight: home.pricePerNight,
+                id: home.objectID,
+                })
+            )
+        },
     }
 }
 </script>
 
-<style scoped>
+<style>
 .search-list {
     width: 300px;
 }
@@ -67,5 +82,19 @@ export default {
 
 .map-view > * {
     height: 100%;
+}
+
+.marker {
+    background-color: white;
+    border: 1px solid gray;
+    font-weight: bold;
+    border-radius: 20px;
+    padding: 3px 8px;
+}
+
+.marker-highlight {
+    color: white !important;
+    background-color: black !important;
+    border-color: black !important;
 }
 </style>
