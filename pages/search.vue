@@ -1,9 +1,12 @@
 <template>
     <div>
-        <h2>{{lat}} / {{lng}} / {{label}}</h2>
-        <article v-for="home of homes" :key="home.objectID">
-            <h3>{{home.title}}</h3>
-        </article>
+        <h4>Results for {{label}}</h4>
+        <section class="search-list">
+            <HomeColumn :homes="homes"/>
+        </section>
+        <section class="map-view">
+            <div id="map" ref="map"></div>
+        </section>
     </div>
 </template>
 
@@ -18,7 +21,9 @@ export default {
         this.label = label
         this.lat = lat
         this.lng = lng
+        this.updateMap()
 
+        console.log(data)
         next()
     },
     async asyncData({ query, $dataApi }){
@@ -35,6 +40,32 @@ export default {
             lat: '',
             lng: '',            
         }
+    },
+    mounted() {
+        this.updateMap()
+    },
+    methods: {
+        updateMap() {
+            this.$maps.showMap(this.$refs.map, this.lat, this.lng)
+        }
     }
 }
 </script>
+
+<style scoped>
+.search-list {
+    width: 300px;
+}
+
+.map-view{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    height: calc(100% - 60px);
+    width: calc(100% - 350px);
+}
+
+.map-view > * {
+    height: 100%;
+}
+</style>

@@ -1,18 +1,21 @@
 <template>
     <article class="card">
 
-            <header>
+            <figure class="card__figure">
                 <img class="card__thumb" :src="home.images[0]" alt="">
-            <h3 class="card__title">{{home.title}}</h3>
-            </header>
+            </figure>
 
             <section class="card__info">
+                <h3 class="card__title">{{home.title}}</h3>
                 <p class="card__infoAddress">{{home.location.address}}</p>
                 <p class="card__infoCity">{{home.location.city}}, {{home.location.state}}</p>                
-                <p class="card__infoGuest">{{home.guests}} guests</p>
+                <p class="card__infoGuest">
+                    {{home.guests}} guests, {{home.bedrooms}} bedrooms, {{home.beds}} beds, {{home.bathrooms}} bathrooms
+                </p>
                 <p class="card__infoPrice">{{home.pricePerNight}} / night</p>
+                <p>{{home.reviewValue}}/5  {{home.reviewCount}} reviews </p>
                 <p class="card__details">
-                    <slot name='details'>Details...</slot>
+                    <slot name='details'></slot>
                 </p>
             </section>     
 
@@ -21,7 +24,7 @@
 
 <script>
 export default {
-    name: 'HomeCard',
+    name: 'HomeRow',
     props: {
         home: {
             type: Object,
@@ -33,16 +36,20 @@ export default {
 
 <style scoped>
 .card {
-    max-width: 250px;
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 1px 1px 18px 0 #00000022;
     max-height: 400px;
+    display: flex;
+}
+
+.card__figure {
+    width: 30%;
 }
 
 .card__thumb {
     width: 100%;
-    height: 180px;
+    height: 100%;
     object-fit: cover;    
 }
 
@@ -60,9 +67,9 @@ export default {
 }
 
 .card__info {
-    display:grid;
+    /* display:grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: 10px;
+    row-gap: 10px; */
 }
 
 .card__infoAddress,

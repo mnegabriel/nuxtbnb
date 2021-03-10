@@ -36,7 +36,7 @@ export default function (context, inject) {
         }
 
         const autoComplete = new window.google.maps.places.Autocomplete(input, {
-            types: "(cities)"
+            types: ["(cities)"]
         });
 
         autoComplete.addListener("place_changed", () => {

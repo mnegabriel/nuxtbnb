@@ -43,7 +43,7 @@ export default function (context, inject) {
         }
     }
 
-    async function getUserByHomeId(lat, lng, radiusInMeters = 1500) {
+    async function getHomesByLocation(lat, lng, radiusInMeters = 1500) {
         try {
             return unwrap(
                 await fetch(baseUrl + "/homes/query", {
@@ -61,8 +61,7 @@ export default function (context, inject) {
             return getErrorResponse(err);
         }
     }
-
-    async function getHomesByLocation(homeId) {
+    async function getUserByHomeId(homeId) {
         try {
             return unwrap(
                 await fetch(baseUrl + "/users/query", {
