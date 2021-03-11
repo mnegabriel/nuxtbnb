@@ -1,8 +1,20 @@
 <template>
-  <header>
-      <nuxt-link to="/">Home</nuxt-link>
-      <input type="text" ref="citiesSearch" @changed="changed">
-  </header>
+<div class="app">
+    <header class="app-header">
+        <div class="app-logo"><img src="/images/logo.svg" ></div>
+        <div class="app-search">
+            <input type="text" ref="citiesSearch" @changed="changed" placeholder="Enter the desired location">
+            <input type="text" class="datepicker" placeholder="Check in">
+            <input type="text" class="datepicker" placeholder="Check out">
+            <button><img src="/images/icons/search.svg" ></button>
+        </div>
+        <div class="app-user-menu">
+            <img src="/images/icons/house.svg" >
+            <div class="name">Host</div>
+            <img src="/images/user.jpg" class="avatar">
+        </div>
+    </header>
+</div>
 </template>
 
 <script>
@@ -27,33 +39,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-header {
-    width: 100%;
-    background-color: var(--col-main-light);
-    padding: 20px;
-}
-
-a {
-    color: rgb(16, 94, 16);
-    font-weight: bold;
-    position: relative;
-}
-
-a::after{
-    content:'';
-    position: absolute;
-    width:0;
-    height: 2px;
-    background-color: var(--col-main-dark);
-    bottom: -5px;
-    right: 0;
-    transition: .1s ease-in-out;
-}
-
-a:hover::after {
-    width: 100%;
-}
-
-</style>
