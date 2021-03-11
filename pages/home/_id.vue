@@ -2,6 +2,8 @@
     <div class="app-container">
         <PropertyGallery :images="home.images" />
         <PropertyDetails :home="home" />
+        <PropertyDescription :home="home" />
+        <PropertyMap :home="home" />
 
         <section class="home__images">
             <img v-for="(image, k) in home.images" :key="k" :src="image" />
