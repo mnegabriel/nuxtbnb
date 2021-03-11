@@ -1,11 +1,11 @@
-export default function (context, inject) {
+export default function(context, inject) {
     const apiId = process.env.dbApiId;
     const apiKey = process.env.dbApiKey;
 
     const baseUrl = `https://${apiId}-dsn.algolia.net/1/indexes`;
     const headers = {
         "X-Algolia-API-Key": apiKey,
-        "X-Algolia-Application-Id": apiId,
+        "X-Algolia-Application-Id": apiId
     };
 
     inject("dataApi", {
@@ -34,8 +34,8 @@ export default function (context, inject) {
                     body: JSON.stringify({
                         filters: `homeId:${homeId}`,
                         hitsPerPage: 6,
-                        attributesToHighlight: [],
-                    }),
+                        attributesToHighlight: []
+                    })
                 })
             );
         } catch (err) {
@@ -85,7 +85,7 @@ export default function (context, inject) {
             json,
             ok,
             status,
-            statusText,
+            statusText
         };
     }
 
@@ -94,7 +94,7 @@ export default function (context, inject) {
             ok: false,
             status: 500,
             statusText: error.message,
-            json: {},
+            json: {}
         };
     }
 }

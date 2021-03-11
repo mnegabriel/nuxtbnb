@@ -1,29 +1,29 @@
-export default function (context, inject) {
-    let isLoaded = false
-    let waiting = []
+export default function(context, inject) {
+    let isLoaded = false;
+    let waiting = [];
 
-    addScript()
+    addScript();
     inject("maps", {
         showMap,
         makeAutoComplete
     });
 
     function addScript() {
-        const script = document.createElement('script')
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.placesApiKey}&libraries=places&callback=initGooglemaps`
-        script.async = true
-        window.initGooglemaps = initGooglemaps
-        document.head.appendChild(script)
+        const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.placesApiKey}&libraries=places&callback=initGooglemaps`;
+        script.async = true;
+        window.initGooglemaps = initGooglemaps;
+        document.head.appendChild(script);
     }
 
     function initGooglemaps() {
-        isLoaded = true
-        waiting.forEach( item => {
-            if( typeof item.fn === 'function' ) {
-                item.fn(...item.arguments)
+        isLoaded = true;
+        waiting.forEach(item => {
+            if (typeof item.fn === "function") {
+                item.fn(...item.arguments);
             }
-        })
-        waiting = []
+        });
+        waiting = [];
     }
 
     function makeAutoComplete(input) {
@@ -44,14 +44,14 @@ export default function (context, inject) {
             input.dispatchEvent(new CustomEvent("changed", { detail: place }));
         });
     }
-    
+
     function showMap(canvas, lat, lng, markers) {
-        if(!isLoaded) {
+        if (!isLoaded) {
             waiting.push({
                 fn: showMap,
-                arguments,
-            })
-            return
+                arguments
+            });
+            return;
         }
         const mapOptions = {
             zoom: 18,
@@ -60,42 +60,40 @@ export default function (context, inject) {
             zoomControl: true,
             styles: [
                 {
-                    featureType: 'poi.business',
-                    elementType: 'Labels.icon',
+                    featureType: "poi.business",
+                    elementType: "Labels.icon",
                     stylers: [
                         {
-                            visibility: 'off',
-
+                            visibility: "off"
                         }
                     ]
-                },
+                }
             ]
-        } 
-        const map = new window.google.maps.Map(canvas, mapOptions)
+        };
+        const map = new window.google.maps.Map(canvas, mapOptions);
 
-        if(!markers) {
-            const position = new window.google.maps.LatLng(lat, lng)
-            const marker = new window.google.maps.Marker({position})
-            marker.setMap(map)
-            return
+        if (!markers) {
+            const position = new window.google.maps.LatLng(lat, lng);
+            const marker = new window.google.maps.Marker({ position });
+            marker.setMap(map);
+            return;
         }
-        
-        const bounds = new window.google.maps.LatLngBounds()
-        markers.forEach( home => {
-            const position = new window.google.maps.LatLng(home.lat, home.lng)
+
+        const bounds = new window.google.maps.LatLngBounds();
+        markers.forEach(home => {
+            const position = new window.google.maps.LatLng(home.lat, home.lng);
             const marker = new window.google.maps.Marker({
                 position,
                 label: {
                     text: `$${home.pricePerNight}`,
-                    className: `marker home-${home.id}`,
+                    className: `marker home-${home.id}`
                 },
-                icon: 'https://maps.gstatic.com/mapfiles/transparent.png'
-            })
-            marker.setMap(map)
-            bounds.extend(position)
-        })
+                icon: "https://maps.gstatic.com/mapfiles/transparent.png"
+            });
+            marker.setMap(map);
+            bounds.extend(position);
+        });
 
-        map.fitBounds(bounds)
+        map.fitBounds(bounds);
     }
-
 }

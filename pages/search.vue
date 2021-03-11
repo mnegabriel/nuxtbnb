@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h4>Results for {{label}}</h4>
+        <h4>Results for {{ label }}</h4>
         <section class="search-list">
-            <HomeColumn :homes="homes"/>
+            <HomeColumn :homes="homes" />
         </section>
         <section class="map-view">
             <div id="map" ref="map"></div>
@@ -12,59 +12,61 @@
 
 <script>
 export default {
-
     async beforeRouteUpdate(to, from, next) {
-        const { label, lat, lng } = to.query
+        const { label, lat, lng } = to.query;
 
-        const data = await this.$dataApi.getHomesByLocation(lat, lng)
+        const data = await this.$dataApi.getHomesByLocation(lat, lng);
 
-        this.homes = data.json.hits
-        this.label = label
-        this.lat = lat
-        this.lng = lng
-        this.updateMap()
+        this.homes = data.json.hits;
+        this.label = label;
+        this.lat = lat;
+        this.lng = lng;
+        this.updateMap();
 
-        console.log(data)
-        next()
+        console.log(data);
+        next();
     },
 
-    async asyncData({ query, $dataApi }){
-        const { label, lat, lng } = query
+    async asyncData({ query, $dataApi }) {
+        const { label, lat, lng } = query;
 
-        const data = await $dataApi.getHomesByLocation(lat, lng)
-        
-        return { homes: data.json.hits, label, lat, lng }
+        const data = await $dataApi.getHomesByLocation(lat, lng);
+
+        return { homes: data.json.hits, label, lat, lng };
     },
 
     data() {
         return {
             homes: [],
-            label: '',
-            lat: '',
-            lng: '',            
-        }
+            label: "",
+            lat: "",
+            lng: "",
+        };
     },
 
     mounted() {
-        this.updateMap()
+        this.updateMap();
     },
 
     methods: {
-
         updateMap() {
-            this.$maps.showMap(this.$refs.map, this.lat, this.lng, this.getHomeMarkers())
+            this.$maps.showMap(
+                this.$refs.map,
+                this.lat,
+                this.lng,
+                this.getHomeMarkers()
+            );
         },
 
         getHomeMarkers() {
-            return this.homes.map( home => ({ 
+            return this.homes.map((home) => ({
                 ...home._geoloc,
                 pricePerNight: home.pricePerNight,
                 id: home.objectID,
-                })
-            )
+            }));
         },
-    }
-}
+    },
+};
 </script>
 
 <style>
@@ -72,7 +74,7 @@ export default {
     width: 300px;
 }
 
-.map-view{
+.map-view {
     position: fixed;
     right: 0;
     bottom: 0;

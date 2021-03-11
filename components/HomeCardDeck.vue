@@ -1,8 +1,8 @@
 <template>
     <ul class="deck">
-        <li v-for="(home, k) in homes" :key="k" >
+        <li v-for="(home, k) in homes" :key="k">
             <nuxt-link :to="`/home/${home.objectID}`">
-                <HomeCard :home='home'>
+                <HomeCard :home="home">
                     <!-- <template #details>{{home.features.join(", ")}}</template> -->
                 </HomeCard>
             </nuxt-link>
@@ -12,9 +12,9 @@
 
 <script>
 export default {
-    name: 'HomeCardDeck',
-    props: ['homes']
-}
+    name: "HomeCardDeck",
+    props: ["homes"],
+};
 </script>
 
 <style>
@@ -26,6 +26,4 @@ export default {
     row-gap: 30px;
     justify-items: center;
 }
-
-
 </style>

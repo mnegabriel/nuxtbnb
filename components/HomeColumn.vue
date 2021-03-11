@@ -1,10 +1,10 @@
 <template>
     <ul class="column">
-        <li v-for="(home, k) in homes" :key="k" >
+        <li v-for="(home, k) in homes" :key="k">
             <nuxt-link :to="`/home/${home.objectID}`">
-                <HomeRow 
-                    :home='home' 
-                    @mouseover.native="highlightMarker(home.objectID, true)" 
+                <HomeRow
+                    :home="home"
+                    @mouseover.native="highlightMarker(home.objectID, true)"
                     @mouseout.native="highlightMarker(home.objectID, false)"
                 />
             </nuxt-link>
@@ -14,16 +14,18 @@
 
 <script>
 export default {
-    name: 'HomeColumn',
+    name: "HomeColumn",
 
-    props: ['homes'],
+    props: ["homes"],
 
     methods: {
         highlightMarker(homeId, isHighlighted) {
-            document.querySelector(`.home-${homeId}`)?.classList?.toggle('marker-highlight', isHighlighted)
+            document
+                .querySelector(`.home-${homeId}`)
+                ?.classList?.toggle("marker-highlight", isHighlighted);
         },
-    }
-}
+    },
+};
 </script>
 
 <style>
@@ -35,6 +37,4 @@ export default {
     gap: 30px;
     align-items: center;
 }
-
-
 </style>
