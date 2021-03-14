@@ -1,28 +1,37 @@
 <template>
-    <article class="card">
-        <figure class="card__figure">
-            <img class="card__thumb" :src="home.images[0]" alt="" />
-        </figure>
-
-        <section class="card__info">
-            <h3 class="card__title">{{ home.title }}</h3>
-            <p class="card__infoAddress">{{ home.location.address }}</p>
-            <p class="card__infoCity">
-                {{ home.location.city }}, {{ home.location.state }}
-            </p>
-            <p class="card__infoGuest">
-                {{ pluralize(home.guests, "guest") }},
-                {{ pluralize(home.bedrooms, "bedroom") }},
-                {{ pluralize(home.beds, "bed") }},
-                {{ pluralize(home.bathrooms, "bathroom") }}.
-            </p>
-            <p class="card__infoPrice">{{ home.pricePerNight }} / night</p>
-            <p>{{ home.reviewValue }}/5 {{ home.reviewCount }} reviews</p>
-            <p class="card__details">
-                <slot name="details"></slot>
-            </p>
-        </section>
-    </article>
+    <div>
+        <div
+            class="app-house-header"
+            :style="`background-image: url(${home.images[0]})`"
+        ></div>
+        <div class="app-house-body">
+            <img src="/images/icons/heart.svg" class="app-fav" />
+            <h2>{{ home.title }}</h2>
+            <div class="app-address">
+                <p>
+                    {{ home.location.address }} {{ home.location.city }},
+                    {{ home.location.state }}
+                </p>
+            </div>
+            <div class="app-amenities">
+                <p>
+                    {{ pluralize(home.guests, "guest") }},
+                    {{ pluralize(home.bedrooms, "bedroom") }},
+                    {{ pluralize(home.beds, "bed") }},
+                    {{ pluralize(home.bathrooms, "bathroom") }}.
+                </p>
+                <p>{{ features }}</p>
+            </div>
+            <div class="app-flex">
+                <div class="app-rating">
+                    {{ home.reviewValue }} <span>{{ home.reviewCount }}</span>
+                </div>
+                <div class="app-price">
+                    ${{ home.pricePerNight }} <span>/ night </span>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -35,6 +44,11 @@ export default {
             required: true,
         },
     },
+    computed: {
+        features() {
+            return this.home.features.slice(0, 3).join(", ");
+        },
+    },
     methods: {
         pluralize,
     },
@@ -42,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-.card {
+/* .card {
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 1px 1px 18px 0 #00000022;
@@ -73,12 +87,6 @@ export default {
     color: #888;
 }
 
-.card__info {
-    /* display:grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 10px; */
-}
-
 .card__infoAddress,
 .card__infoCity,
 .card__details {
@@ -95,5 +103,5 @@ export default {
     border-top: 1px solid #eee;
     font-size: 0.8rem;
     color: #888;
-}
+} */
 </style>

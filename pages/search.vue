@@ -1,12 +1,25 @@
 <template>
-    <div>
-        <h4>Results for {{ label }}</h4>
-        <section class="search-list">
-            <HomeColumn :homes="homes" />
-        </section>
-        <section class="map-view">
-            <div id="map" ref="map"></div>
-        </section>
+    <div class="app-search-results-page">
+        <div class="app-search-results">
+            <div class="app-search-results-listing">
+                <h2 class="app-title">Stays in {{ label }}</h2>
+                <nuxt-link
+                    v-for="home in homes"
+                    :key="home.objectID"
+                    :to="`/home/${home.objectID}`"
+                >
+                    <HomeRow
+                        class="app-house"
+                        :home="home"
+                        @mouseover.native="highlightMarker(home.objectID, true)"
+                        @mouseout.native="highlightMarker(home.objectID, false)"
+                    />
+                </nuxt-link>
+            </div>
+            <div class="app-search-results-map">
+                <div class="app-map" ref="map"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -59,32 +72,24 @@ export default {
         },
 
         getHomeMarkers() {
-            return this.homes.map((home) => ({
-                ...home._geoloc,
-                pricePerNight: home.pricePerNight,
-                id: home.objectID,
-            }));
+            return this.homes.length === 0
+                ? null
+                : this.homes.map((home) => ({
+                      ...home._geoloc,
+                      pricePerNight: home.pricePerNight,
+                      id: home.objectID,
+                  }));
+        },
+        highlightMarker(homeId, isHighlighted) {
+            document
+                .querySelector(`.home-${homeId}`)
+                ?.classList?.toggle("marker-highlight", isHighlighted);
         },
     },
 };
 </script>
 
 <style>
-.search-list {
-    width: 300px;
-}
-
-.map-view {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    height: calc(100% - 60px);
-    width: calc(100% - 350px);
-}
-
-.map-view > * {
-    height: 100%;
-}
 
 .marker {
     background-color: white;
