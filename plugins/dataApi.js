@@ -1,11 +1,10 @@
-export default function(context, inject) {
-    const apiId = process.env.dbApiId;
-    const apiKey = process.env.dbApiKey;
+import { unwrap, getErrorResponse } from "~/utils/fetchUtils";
 
-    const baseUrl = `https://${apiId}-dsn.algolia.net/1/indexes`;
+export default function({ $config }, inject) {
+    const baseUrl = `https://${$config.algolia.appId}-dsn.algolia.net/1/indexes`;
     const headers = {
-        "X-Algolia-API-Key": apiKey,
-        "X-Algolia-Application-Id": apiId
+        "X-Algolia-API-Key": $config.algolia.key,
+        "X-Algolia-Application-Id": $config.algolia.appId
     };
 
     inject("dataApi", {
@@ -18,7 +17,7 @@ export default function(context, inject) {
     async function getHome(homeId) {
         try {
             return unwrap(
-                await fetch(baseUrl + `/homes/${homeId}`, { headers })
+                await fetch( baseUrl + `/homes/${homeId}`, { headers })
             );
         } catch (err) {
             return getErrorResponse(err);
@@ -28,7 +27,7 @@ export default function(context, inject) {
     async function getReviewsByHomeId(homeId) {
         try {
             return unwrap(
-                await fetch(baseUrl + "/reviews/query", {
+                await fetch( baseUrl + "/reviews/query", {
                     headers,
                     method: "POST",
                     body: JSON.stringify({
@@ -43,10 +42,10 @@ export default function(context, inject) {
         }
     }
 
-    async function getHomesByLocation(lat, lng, radiusInMeters = 1500) {
+    async function getHomesByLocation(lat,lng,radiusInMeters = 1500) {
         try {
             return unwrap(
-                await fetch(baseUrl + "/homes/query", {
+                await fetch( baseUrl + "/homes/query", {
                     headers,
                     method: "POST",
                     body: JSON.stringify({
@@ -61,10 +60,11 @@ export default function(context, inject) {
             return getErrorResponse(err);
         }
     }
+
     async function getUserByHomeId(homeId) {
         try {
             return unwrap(
-                await fetch(baseUrl + "/users/query", {
+                await fetch( baseUrl + "/users/query", {
                     headers,
                     method: "POST",
                     body: JSON.stringify({
@@ -76,25 +76,5 @@ export default function(context, inject) {
         } catch (err) {
             return getErrorResponse(err);
         }
-    }
-
-    async function unwrap(response) {
-        const json = await response.json();
-        const { ok, status, statusText } = response;
-        return {
-            json,
-            ok,
-            status,
-            statusText
-        };
-    }
-
-    function getErrorResponse(error) {
-        return {
-            ok: false,
-            status: 500,
-            statusText: error.message,
-            json: {}
-        };
     }
 }

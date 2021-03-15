@@ -14,10 +14,12 @@
                 <button><img src="/images/icons/search.svg" /></button>
             </div>
             <div class="app-user-menu">
-                <img src="/images/icons/house.svg" />
-                <div class="name">Host</div>
-                <!-- <img src="/images/user.jpg" class="avatar" /> -->
-                <div id="googleButton"></div>
+                <template v-if="isLoggedIn">
+                    <img src="/images/icons/house.svg" />
+                    <div class="name">Host</div>
+                    <img :src="user.profileUrl" class="avatar" />
+                </template>
+                <div v-if="!isLoggedIn" id="googleButton"></div>
             </div>
         </header>
     </div>
@@ -26,6 +28,14 @@
 <script>
 export default {
     name: "TheHeader",
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        },
+        isLoggedIn() {
+            return this.$store.state.auth.isLoggedIn;
+        },
+    },
     mounted() {
         this.$maps.makeAutoComplete(this.$refs.citiesSearch);
     },

@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "cookie": "^0.4.1",
+    "google-auth-library": "^7.0.2",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.14.7"
   },

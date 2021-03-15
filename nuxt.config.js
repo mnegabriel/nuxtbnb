@@ -18,7 +18,7 @@ export default {
 
         "~/plugins/auth.client.js"
     ],
-    modules: [],
+    modules: ["~/modules/auth.js", "~/modules/algolia.js"],
     buildModules: ["@nuxtjs/tailwindcss"],
     css: ["~/assets/sass/app.scss"],
     build: {
@@ -36,6 +36,16 @@ export default {
         auth: {
             cookieName: "idToken",
             clientId: process.env.OAUTH_CLIENT_ID
+        },
+        algolia: {
+            appId: process.env.DB_API_ID,
+            key: process.env.DB_API_KEY
+        }
+    },
+    privateRuntimeConfig: {
+        algolia: {
+            appId: process.env.DB_API_ID,
+            key: process.env.DB_API_KEY_WITH_PRIVILEDGE
         }
     }
 };
